@@ -1,0 +1,27 @@
+# Файл .htaccess для работы с Apache
+# Необязателен при использовании php -S
+
+# Включаем mod_rewrite
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    
+    # Если файл или директория существует - отдаем как есть
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Иначе перенаправляем на index.php
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+# Защита от просмотра директорий
+Options -Indexes
+
+# Кодировка UTF-8
+AddDefaultCharset UTF-8
+
+# Запрет доступа к служебным файлам
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|sql)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
